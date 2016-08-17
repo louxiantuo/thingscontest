@@ -1,0 +1,10 @@
+在这里呈现关于接受端和发送端的管道建立方式和代码
+
+发送端（pi）
+    视频：raspivid -t 0 -h 720 -w 1080 -fps 25 -hf -b 2000000 -o - | gst-launch-1.0 -v fdsrc ! h264parse !  rtph264pay config-interval=1 pt=96 ! gdppay ! tcpserversink host=<your-pi-ip> port=5000
+    音频：gst-launch-0.10 -v alsasrc device=hw:1,0 ! audioconvert ! audioresample ! alawenc ! rtppcmapay ! udpsink host=<接受端ip> port=5555
+
+接受端（host）
+    视频：gst-launch-1.0 -v tcpclientsrc host=<your-pi-ip> port=5000 ! gdpdepay ! rtph264depay ! avdec-h264 ! videoconvert ! autovideosink sync=flase
+    音频：gst-launch-1.0 udpsrc port=5555 caps = "application/x-rtp" ! queue ! rtppcmudepay ! mulawdec ! alsasink
+
