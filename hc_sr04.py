@@ -72,6 +72,9 @@ def hc_sr04():
      global count_far
      global count_near
      global key
+     GPIO.setmode(GPIO.BCM)
+     GPIO.setup(2,GPIO.OUT,initial = GPIO.LOW)
+     GPIO.setup(3,GPIO.IN)
 #    while True:
      print 'distance :%0.2f m' %checkdist()
      distance = checkdist()
@@ -85,6 +88,7 @@ def hc_sr04():
     # if key == 0 and count_far >= 5:
     #     count_far = 0
      time.sleep(0.5)
+     GPIO.cleanup()
      pass
 
 def video():
@@ -120,9 +124,9 @@ def startthread():
          key = 0
     pass
 try:
-     GPIO.setmode(GPIO.BCM)
-     GPIO.setup(2,GPIO.OUT,initial = GPIO.LOW)
-     GPIO.setup(3,GPIO.IN)
+#     GPIO.setmode(GPIO.BCM)
+#     GPIO.setup(2,GPIO.OUT,initial = GPIO.LOW)
+#     GPIO.setup(3,GPIO.IN)
 #     t2 = threading.Thread(target=hc_sr04)
 #     t3 = threading.Thread(target=video)
 #     t4 = threading.Thread(target=audio)
