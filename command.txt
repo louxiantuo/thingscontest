@@ -5,6 +5,6 @@
     音频：gst-launch-0.10 -v alsasrc device=hw:1,0 ! audioconvert ! audioresample ! alawenc ! rtppcmapay ! udpsink host=<接受端ip> port=5555
 
 接受端（host）
-    视频：gst-launch-1.0 -v tcpclientsrc host=<your-pi-ip> port=5000 ! gdpdepay ! rtph264depay ! avdec-h264 ! videoconvert ! autovideosink sync=flase
+    视频：gst-launch-1.0 -v tcpclientsrc host=<your-pi-ip> port=5000 ! gdpdepay ! rtph264depay ! avdec-h264 ! videoconvert ! autovideosink sync=false
     音频：gst-launch-1.0 udpsrc port=5555 caps = "application/x-rtp" ! queue ! rtppcmudepay ! mulawdec ! alsasink
 
